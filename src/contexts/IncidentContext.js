@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { getAllIncidents, saveIncident as dbSaveIncident } from '../services/database';
 import { syncIncidents } from '../services/api';
+import logger from '../utils/logger';
 
 const IncidentContext = createContext();
 
@@ -23,7 +24,7 @@ export const IncidentProvider = ({ children }) => {
       const data = await getAllIncidents();
       setIncidents(data);
     } catch (error) {
-      console.error('Error loading incidents:', error);
+      logger.error('Error loading incidents:', error);
     } finally {
       setLoading(false);
     }
@@ -35,7 +36,7 @@ export const IncidentProvider = ({ children }) => {
       await loadIncidents();
       return { success: true, id };
     } catch (error) {
-      console.error('Error saving incident:', error);
+      logger.error('Error saving incident:', error);
       return { success: false, error: error.message };
     }
   };
@@ -47,7 +48,7 @@ export const IncidentProvider = ({ children }) => {
       await loadIncidents();
       return result;
     } catch (error) {
-      console.error('Error syncing:', error);
+      logger.error('Error syncing:', error);
       return { success: false, error: error.message };
     } finally {
       setSyncing(false);

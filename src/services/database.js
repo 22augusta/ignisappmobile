@@ -1,4 +1,5 @@
 import * as SQLite from 'expo-sqlite';
+import logger from '../utils/logger';
 
 let db;
 
@@ -26,10 +27,10 @@ export const initDatabase = async () => {
       );
     `);
 
-    console.log('Database initialized successfully');
+    logger.info('Database initialized successfully');
     return db;
   } catch (error) {
-    console.error('Error initializing database:', error);
+    logger.error('Error initializing database:', error);
     throw error;
   }
 };
@@ -55,7 +56,7 @@ export const saveIncident = async (incidentData) => {
     
     return result.lastInsertRowId;
   } catch (error) {
-    console.error('Error saving incident:', error);
+    logger.error('Error saving incident:', error);
     throw error;
   }
 };
@@ -69,7 +70,7 @@ export const getAllIncidents = async () => {
       videos: JSON.parse(incident.videos || '[]')
     }));
   } catch (error) {
-    console.error('Error getting incidents:', error);
+    logger.error('Error getting incidents:', error);
     throw error;
   }
 };
@@ -86,7 +87,7 @@ export const getIncidentById = async (id) => {
     }
     return null;
   } catch (error) {
-    console.error('Error getting incident:', error);
+    logger.error('Error getting incident:', error);
     throw error;
   }
 };
@@ -98,7 +99,7 @@ export const updateIncidentStatus = async (id, status) => {
       [status, id]
     );
   } catch (error) {
-    console.error('Error updating incident status:', error);
+    logger.error('Error updating incident status:', error);
     throw error;
   }
 };
@@ -110,7 +111,7 @@ export const markIncidentAsSynced = async (id) => {
       [id]
     );
   } catch (error) {
-    console.error('Error marking incident as synced:', error);
+    logger.error('Error marking incident as synced:', error);
     throw error;
   }
 };
@@ -124,7 +125,7 @@ export const getUnsyncedIncidents = async () => {
       videos: JSON.parse(incident.videos || '[]')
     }));
   } catch (error) {
-    console.error('Error getting unsynced incidents:', error);
+    logger.error('Error getting unsynced incidents:', error);
     throw error;
   }
 };
@@ -133,7 +134,7 @@ export const deleteIncident = async (id) => {
   try {
     await db.runAsync('DELETE FROM incidents WHERE id = ?', [id]);
   } catch (error) {
-    console.error('Error deleting incident:', error);
+    logger.error('Error deleting incident:', error);
     throw error;
   }
 };

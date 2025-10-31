@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { login as apiLogin, setAuthToken } from '../services/api';
+import logger from '../utils/logger';
 
 const AuthContext = createContext();
 
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }) => {
         setAuthToken(storedToken);
       }
     } catch (error) {
-      console.error('Error loading stored auth:', error);
+      logger.error('Error loading stored auth:', error);
     } finally {
       setLoading(false);
     }
@@ -51,7 +52,7 @@ export const AuthProvider = ({ children }) => {
 
       return { success: true };
     } catch (error) {
-      console.error('Login error:', error);
+      logger.error('Login error:', error);
       return { success: false, error: error.message };
     }
   };
@@ -64,7 +65,7 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       setAuthToken(null);
     } catch (error) {
-      console.error('Logout error:', error);
+      logger.error('Logout error:', error);
     }
   };
 

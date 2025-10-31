@@ -18,6 +18,34 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const handleOfflineMode = () => {
+    // For development: Allow offline mode without authentication
+    Alert.alert(
+      'Modo Offline',
+      'Você está usando o modo offline de desenvolvimento. Algumas funcionalidades podem estar limitadas.',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        {
+          text: 'Continuar',
+          onPress: async () => {
+            // Set mock user for offline mode
+            const mockUser = { id: 0, username: 'offline', name: 'Usuário Offline' };
+            const mockToken = 'offline-mode-token';
+            
+            await AsyncStorage.setItem('authToken', mockToken);
+            await AsyncStorage.setItem('user', JSON.stringify(mockUser));
+            
+            setToken(mockToken);
+            setUser(mockUser);
+          },
+        },
+      ]
+    );
+  };
+
   const handleLogin = async () => {
     if (!username.trim() || !password.trim()) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos.');
@@ -93,7 +121,7 @@ export default function LoginScreen() {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.offlineButton} onPress={handleLogin}>
+          <TouchableOpacity style={styles.offlineButton} onPress={handleOfflineMode}>
             <Text style={styles.offlineButtonText}>
               Usar modo offline (desenvolvimento)
             </Text>

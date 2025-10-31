@@ -7,6 +7,7 @@ import { ActivityIndicator, View, Text } from 'react-native';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { IncidentProvider } from './contexts/IncidentContext';
 import { initDatabase } from './services/database';
+import logger from './utils/logger';
 
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
@@ -109,7 +110,7 @@ export default function Navigation() {
         await initDatabase();
         setDbReady(true);
       } catch (error) {
-        console.error('Failed to initialize database:', error);
+        logger.error('Failed to initialize database:', error);
       }
     };
 

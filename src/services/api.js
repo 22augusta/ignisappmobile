@@ -1,8 +1,14 @@
 import axios from 'axios';
 import { getUnsyncedIncidents, markIncidentAsSynced } from './database';
+import logger from '../utils/logger';
 
 // Configure this URL to point to CBMPE's central database API
-const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'https://api.cbmpe.gov.br';
+// In production, this environment variable should be set
+const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
+
+if (!API_BASE_URL) {
+  logger.warn('EXPO_PUBLIC_API_URL is not set. API calls will fail. Please configure .env file.');
+}
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -46,7 +52,7 @@ export const syncIncidents = async () => {
       total: unsyncedIncidents.length
     };
   } catch (error) {
-    console.error('Error syncing incidents:', error);
+    logger.error('Error syncing incidents:', error);
     return { success: false, error: error.message };
   }
 };
@@ -68,7 +74,7 @@ export const uploadMedia = async (uri, type = 'image') => {
 
     return response.data;
   } catch (error) {
-    console.error('Error uploading media:', error);
+    logger.error('Error uploading media:', error);
     throw error;
   }
 };
@@ -82,7 +88,7 @@ export const exportData = async (filters = {}) => {
 
     return response.data;
   } catch (error) {
-    console.error('Error exporting data:', error);
+    logger.error('Error exporting data:', error);
     throw error;
   }
 };
@@ -92,7 +98,7 @@ export const getIncidentStats = async () => {
     const response = await api.get('/incidents/stats');
     return response.data;
   } catch (error) {
-    console.error('Error getting stats:', error);
+    logger.error('Error getting stats:', error);
     throw error;
   }
 };
@@ -108,7 +114,7 @@ export const login = async (username, password) => {
     
     return { token, user };
   } catch (error) {
-    console.error('Error logging in:', error);
+    logger.error('Error logging in:', error);
     throw error;
   }
 };

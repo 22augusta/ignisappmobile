@@ -47,10 +47,8 @@ export default function NewIncidentScreen({ navigation }) {
         await Location.requestForegroundPermissionsAsync();
       setLocationPermission(locationStatus === 'granted');
 
-      const { status: cameraStatus } =
-        await ImagePicker.requestCameraPermissionsAsync();
-      const { status: mediaStatus } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      await ImagePicker.requestCameraPermissionsAsync();
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
     } catch (error) {
       console.error('Error requesting permissions:', error);
     }
@@ -58,13 +56,17 @@ export default function NewIncidentScreen({ navigation }) {
 
   const getCurrentLocation = async () => {
     try {
-      const { status } = await Location.requestForegroundPermissionsAsync();
+      const { status } = await Location.getForegroundPermissionsAsync();
+      
       if (status !== 'granted') {
-        Alert.alert(
-          'Permissão Negada',
-          'Permissão de localização é necessária para registrar ocorrências.'
-        );
-        return;
+        const { status: newStatus } = await Location.requestForegroundPermissionsAsync();
+        if (newStatus !== 'granted') {
+          Alert.alert(
+            'Permissão Negada',
+            'Permissão de localização é necessária para registrar ocorrências.'
+          );
+          return;
+        }
       }
 
       const location = await Location.getCurrentPositionAsync({
