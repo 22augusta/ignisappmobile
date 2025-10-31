@@ -1,0 +1,66 @@
+{
+  "expo": {
+    "name": "IGNIS - CBMPE",
+    "slug": "ignisappmobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#C41E3A"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "br.gov.pe.cbm.ignis",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Este aplicativo precisa acessar a câmera para capturar fotos e vídeos de ocorrências.",
+        "NSPhotoLibraryUsageDescription": "Este aplicativo precisa acessar a galeria para selecionar fotos de ocorrências.",
+        "NSLocationWhenInUseUsageDescription": "Este aplicativo precisa acessar sua localização para registrar a posição das ocorrências.",
+        "NSMicrophoneUsageDescription": "Este aplicativo precisa acessar o microfone para gravar vídeos de ocorrências."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#C41E3A"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "br.gov.pe.cbm.ignis",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "RECORD_AUDIO"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Este aplicativo precisa acessar a câmera para capturar fotos e vídeos de ocorrências."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Este aplicativo precisa acessar sua localização para registrar a posição das ocorrências."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Este aplicativo precisa acessar a galeria para selecionar fotos de ocorrências.",
+          "savePhotosPermission": "Este aplicativo precisa salvar fotos de ocorrências na galeria."
+        }
+      ]
+    ]
+  }
+}
